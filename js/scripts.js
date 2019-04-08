@@ -20,7 +20,7 @@ Places.prototype.addPlace = function(place) {
 
 Places.prototype.assignId = function() {
   this.currentId += 1;
-  return currentId;
+  return this.currentId;
 }
 
 Places.prototype.findYear = function (year) {
@@ -58,3 +58,32 @@ Places.prototype.deletePlace = function (id) {
   }
   return false
 }
+
+var userPlaces = new Places();
+
+// UI logic
+
+$(document).ready(function () {
+  $("form#formOne").submit(function(event) {
+    event.preventDefault();
+    console.log('clicking works');
+    var userCountry = $("input#country").val();
+    var userCity = $("input#city").val();
+    var userLandmarks = $("input#landmarks").val().split(', ');
+    var userNotes = $("input#notes").val();
+    var userYear = parseInt($("input#year").val());
+    if (userCountry === "" || userCity === "" || userYear === "" || year < 1900) {
+      alert('Please complete all required fields!');
+    } else {
+      var newPlace = new Place(userCity, userCountry, userLandmarks, userYear, userNotes);
+      userPlaces.addPlace(newPlace);
+      $('form input').val('');
+      $('#places-panels').prepend(
+        '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">' + newPlace.cityName + ', ' + newPlace.countryName + '</h4></div><div class="panel-body"><p>Year Visited: ' + newPlace.year + '</p><p>Landmarks Visited: ' + newPlace.landmarks.join(', ') + '</p><p>Notes: ' + newPlace.notes + '</p></div></div>'
+      );
+    }
+    console.log(newPlace);
+    console.log(userPlaces);
+
+  });
+});
