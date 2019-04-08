@@ -120,5 +120,6 @@ $(document).ready(function () {
       $('#place-panel-' + id).show();
       });
     });
+  
   });
 });
