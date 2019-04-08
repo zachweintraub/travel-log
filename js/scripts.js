@@ -59,31 +59,66 @@ Places.prototype.deletePlace = function (id) {
   return false
 }
 
+Places.prototype.checkForValue = function(key, value) {
+  for(var i = 0; i < this.places.length; i++) {
+    if (this.places[i]) {
+      if (this.places[i][key] === value) {
+      return true;
+      }
+    }
+  }
+  return false;
+}
+
+Places.prototype.checkId = function (key,value) {
+  var idArray = []
+  for(var i = 0; i < this.places.length; i++) {
+    if (this.places[i]) {
+      if (this.places[i][key] === value) {
+        idArray.push(this.places[i].id)
+      }
+  }
+}
+return idArray;
+}
+
 var userPlaces = new Places();
 
 // UI logic
 
 $(document).ready(function () {
+
   $("form#formOne").submit(function(event) {
     event.preventDefault();
-    console.log('clicking works');
     var userCountry = $("input#country").val();
     var userCity = $("input#city").val();
     var userLandmarks = $("input#landmarks").val().split(', ');
     var userNotes = $("input#notes").val();
     var userYear = parseInt($("input#year").val());
-    if (userCountry === "" || userCity === "" || userYear === "" || year < 1900) {
+    if ( userCountry === "" || userCity === "" || (userYear < 1900 || isNaN(userYear))) {
       alert('Please complete all required fields!');
     } else {
       var newPlace = new Place(userCity, userCountry, userLandmarks, userYear, userNotes);
+      if(!userPlaces.checkForValue('year', newPlace.year)) {
+        $("#year-filter-label").show();
+        $("#filter").append(
+        '<input type="checkbox" name="year-filter" value="' + newPlace.year +'">' + newPlace.year + '  '
+      );
+    }
       userPlaces.addPlace(newPlace);
       $('form input').val('');
       $('#places-panels').prepend(
-        '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">' + newPlace.cityName + ', ' + newPlace.countryName + '</h4></div><div class="panel-body"><p>Year Visited: ' + newPlace.year + '</p><p>Landmarks Visited: ' + newPlace.landmarks.join(', ') + '</p><p>Notes: ' + newPlace.notes + '</p></div></div>'
+        '<div id="place-panel-' + newPlace.id + '"class="panel panel-default"><div class="panel-heading"><h4 class="panel-title">' + newPlace.cityName + ', ' + newPlace.countryName + '</h4></div><div class="panel-body"><p>Year Visited: ' + newPlace.year + '</p><p>Landmarks Visited: ' + newPlace.landmarks.join(', ') + '</p><p>Notes: ' + newPlace.notes + '</p></div></div>'
       );
     }
-    console.log(newPlace);
-    console.log(userPlaces);
-
+  });
+  $('#filter').on('change', 'input:checkbox', function(){
+    $('[id^=place-panel]').hide();
+    $("input:checkbox:checked").each(function(){
+      var checkedValue = parseInt($(this).val());
+      userPlaces.checkId('year', checkedValue).forEach(function(id) {
+      $('#place-panel-' + id).show();
+      });
+    });
   });
 });
