@@ -96,8 +96,9 @@ $(document).ready(function () {
     var userNotes = $("input#notes").val();
     var userYear = parseInt($("input#year").val());
     if ( userCountry === "" || userCity === "" || (userYear < 1900 || isNaN(userYear))) {
-      alert('Please complete all required fields!');
+      $('#required-alert').show();
     } else {
+      $('#required-alert').hide();
       var newPlace = new Place(userCity, userCountry, userLandmarks, userYear, userNotes);
       if(!userPlaces.checkForValue('year', newPlace.year)) {
         $("#year-filter-label").show();
@@ -114,12 +115,17 @@ $(document).ready(function () {
   });
   $('#filter').on('change', 'input:checkbox', function(){
     $('[id^=place-panel]').hide();
+    var checkedQuantity = 0;
     $("input:checkbox:checked").each(function(){
+      checkedQuantity++;
       var checkedValue = parseInt($(this).val());
-      userPlaces.checkId('year', checkedValue).forEach(function(id) {
-      $('#place-panel-' + id).show();
-      });
+      var matchingValues = userPlaces.checkId('year', checkedValue);
+      matchingValues.forEach(function(id) {
+        $('#place-panel-' + id).show();
+        });
     });
-  
+    if(checkedQuantity == 0) {
+      $('[id^=place-panel]').show();
+    }
   });
 });

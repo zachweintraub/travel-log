@@ -13,28 +13,30 @@
       <h1>My Travel Log</h1>
 
       <form id="formOne">
-            <div class="form-group">
-              <label for="year">Year </label>
-              <input id="year" type="number"><br>
-            </div>
-            <div class="form-group">
-              <label for="country">Country </label>
-              <input id="country" type="text"> <br>
-            </div>
-            <div class="form-group">
-              <label for="city">City </label>
-              <input id="city" type="text"> <br>
-            </div>
-            <div class="form-group">
-              <label for="landmarks">Landmarks </label>
-              <input id="landmarks" type="text"> <br>
-            </div>
-            <div class="form-group">
-              <label for="notes">Notes </label>
-              <input id="notes" type="text"> <br>
-            </div>
+        <div class="form-group">
+          <label for="year">Year*</label>
+          <input id="year" type="number"><br>
+        </div>
+        <div class="form-group">
+          <label for="country">Country*</label>
+          <input id="country" type="text"> <br>
+        </div>
+        <div class="form-group">
+          <label for="city">City*</label>
+          <input id="city" type="text"> <br>
+        </div>
+        <div class="form-group">
+          <label for="landmarks">Landmarks </label>
+          <input id="landmarks" type="text"> <br>
+        </div>
+        <div class="form-group">
+          <label for="notes">Notes </label>
+          <input id="notes" type="text"> <br>
+        </div>
 
-          <button type ="submit" name="add-place" id="add-place">+ Add a New Location</button><br><br>
+        <p>* indicates a required field.</p>
+        <button type ="submit" name="add-place" id="add-place">+ Add a New Location</button><br><br>
+        <p id="required-alert">Please complete all required fields and check to ensure that the year is valid.</p>
       </form>
       <div id= "filter">
         <p id="year-filter-label">Filter by year:</p>
